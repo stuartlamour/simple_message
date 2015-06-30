@@ -8,4 +8,6 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-$string['pluginname'] = 'Moodle simple messaging    ';
+$string['pluginname'] = 'Moodle simple messaging';
+
+$string['title'] = 'Messaging redefined';
