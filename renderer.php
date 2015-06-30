@@ -14,7 +14,7 @@ class local_simple_message_renderer extends plugin_renderer_base {
 
     public function render_navigation() {
         return "<div id='sm-navigation'>
-        <h2>Direct Messages</h2>
+        <h2><a href='#sm-conversation'>Direct Message</a></h2>
         <ol>
           <li>User name <span class='sm-unread'>3</span></li>
           <li>User name <span class='sm-unread'>3</span></li>
@@ -32,7 +32,7 @@ class local_simple_message_renderer extends plugin_renderer_base {
           <li>Group title <span class='sm-unread'>3</span></li>
           <li>Group title <span class='sm-unread'>3</span></li>
         </ol>
-        <div>";
+        </div>";
     }
 
     public function render_existing_conversations() {

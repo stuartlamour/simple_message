@@ -31,12 +31,9 @@ $renderer = $PAGE->get_renderer('local_simple_message');
 
 /// Print the page header
 echo $OUTPUT->header();
-
-echo $renderer->render_navigation();
+echo "<div id='sm-wrapper' class='clearfix'>";
 echo $renderer->render_conversation();
+echo $renderer->render_navigation();
+echo "</div>";
 
 echo $OUTPUT->footer();
-
-
-
-

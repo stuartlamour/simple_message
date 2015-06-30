@@ -1,0 +1,27 @@
+/* SHAME - demo code */
+#sm-navigation{
+  background-color:#dadada;
+}
+#sm-conversation {
+  background-color:white;
+  padding:2em;
+}
+
+
+#sm-conversation,
+#sm-navigation {
+    width:95%;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+}
+
+#sm-conversation {
+  margin-right:-100%;
+  float:right;
+}
+#sm-conversation:target{
+  margin-right:0;
+}
+#sm-conversation:target + #sm-navigation {
+  margin-left:-100%;
+}
