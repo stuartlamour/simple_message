@@ -42,6 +42,6 @@ class local_simple_message_renderer extends plugin_renderer_base {
       return "<div id='sm-conversation'>
               <textarea>your message here</textarea>
               send
-              </div>"
+              </div>";
     }
 }

@@ -25,9 +25,15 @@ $PAGE->set_context($context);
 $PAGE->set_url('/local/simple_message/message.php');
 $PAGE->set_title(get_string('title', 'local_simple_message'));
 $PAGE->set_heading(get_string('title', 'local_simple_message'));
+
+
+$renderer = $PAGE->get_renderer('local_simple_message');
+
 /// Print the page header
 echo $OUTPUT->header();
 
+echo $renderer->render_navigation();
+echo $renderer->render_conversation();
 
 echo $OUTPUT->footer();
 
