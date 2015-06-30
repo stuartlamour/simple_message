@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="local/simple_message/db" VERSION="20150630" COMMENT="XMLDB file for Moodle local/simple_message"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="sm_message" COMMENT="Data structure implementing a messsage">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="senderid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="body" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="timestamp" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="conversationid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="conversationid" TYPE="foreign-unique" FIELDS="conversationid" REFTABLE="conversation" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="sm_conversation" COMMENT="Data structure implementing a conversation">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="last_update" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="subject" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="sm_conversation_users" COMMENT="Data structure implementing a conversation-user relation">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="conversationid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="conversationid" TYPE="foreign-unique" FIELDS="conversationid" REFTABLE="conversation" REFFIELDS="id"/>
+        <KEY NAME="userid" TYPE="foreign-unique" FIELDS="userid" REFTABLE="user" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+  </TABLES>
+</XMLDB>
