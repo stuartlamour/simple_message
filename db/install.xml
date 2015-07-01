@@ -14,7 +14,7 @@
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
-        <KEY NAME="conversationid" TYPE="foreign-unique" FIELDS="conversationid" REFTABLE="sm_conversation" REFFIELDS="id"/>
+        <KEY NAME="conversationid" TYPE="foreign" FIELDS="conversationid" REFTABLE="sm_conversation" REFFIELDS="id"/>
       </KEYS>
     </TABLE>
     <TABLE NAME="sm_conversation" COMMENT="Data structure implementing a conversation">
@@ -35,8 +35,8 @@
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
-        <KEY NAME="conversationid" TYPE="foreign-unique" FIELDS="conversationid" REFTABLE="sm_conversation" REFFIELDS="id"/>
-        <KEY NAME="userid" TYPE="foreign-unique" FIELDS="userid" REFTABLE="user" REFFIELDS="id"/>
+        <KEY NAME="conversationid" TYPE="foreign" FIELDS="conversationid" REFTABLE="sm_conversation" REFFIELDS="id"/>
+        <KEY NAME="userid" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id"/>
       </KEYS>
     </TABLE>
   </TABLES>

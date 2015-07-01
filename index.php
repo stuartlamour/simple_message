@@ -7,7 +7,8 @@
  */
 
 
-require_once('../../config.php');
+require_once(__DIR__ . '/../../config.php');
+require_once(__DIR__ . '/locallib.php');
 
 
 $context = context_system::instance();
@@ -35,5 +36,9 @@ echo "<div id='sm-wrapper' class='clearfix'>";
 echo $renderer->render_conversation();
 echo $renderer->render_navigation();
 echo "</div>";
+
+local_simple_message_conversation::find_conversation(2,3);
+local_simple_message_conversation::find_conversation(4,3);
+local_simple_message_conversation::find_conversation(6,8);
 
 echo $OUTPUT->footer();
