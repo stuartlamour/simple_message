@@ -48,8 +48,6 @@ echo $OUTPUT->header();
 echo "<div id='sm-wrapper' class='clearfix'>";
 echo $renderer->render_conversation();
 
-
-
 $conversation = local_simple_message_conversation::find_converstation_by_id($conversationid);
 
 
@@ -57,10 +55,6 @@ $conversation = local_simple_message_conversation::find_converstation_by_id($con
 echo $renderer->render_navigation($conversation);
 echo "</div>";
 echo '<a href="newconversation.php">Add a conversation</a> <br />';
-
-
-
-
 
 
 echo $OUTPUT->footer();
