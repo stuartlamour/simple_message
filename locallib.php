@@ -126,3 +126,26 @@ class local_simple_message_message {
 
 }
 
+
+function local_simple_message_find_users($name) {
+    global $DB;
+    $sql = '
+SELECT
+    u.id,
+    u.firstname,
+    u.lastname
+FROM
+    {user} u
+WHERE
+    ' . $DB->sql_like('u.firstname', '?', false) . ' OR ' .
+    $DB->sql_like('u.lastname', '?', false) .
+' LIMIT 0, 15';
+    $searchname = $name . '%';
+    $users = $DB->get_records_sql($sql, array($searchname, $searchname));
+    $pattern = '/^(' . $name . ')/i';
+    foreach ($users as $id => $user) {
+        $users[$id]->firstname = preg_replace($pattern, '<strong>' . $name . '</strong>', $user->firstname);
+        $users[$id]->lastname = preg_replace($pattern, '<strong>' . $name . '</strong>', $user->lastname);
+    }
+    return $users;
+}

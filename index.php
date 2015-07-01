@@ -31,14 +31,17 @@ $PAGE->set_heading(get_string('title', 'local_simple_message'));
 $renderer = $PAGE->get_renderer('local_simple_message');
 
 /// Print the page header
+
 echo $OUTPUT->header();
-echo "<div id='sm-wrapper' class='clearfix'>";
+
+
+/*echo "<div id='sm-wrapper' class='clearfix'>";
 echo $renderer->render_conversation();
 echo $renderer->render_navigation();
-echo "</div>";
+echo "</div>";*/
 
-local_simple_message_conversation::find_conversation(2,3);
-local_simple_message_conversation::find_conversation(4,3);
-local_simple_message_conversation::find_conversation(6,8);
+print_r(local_simple_message_find_users('u'));
+
+
 
 echo $OUTPUT->footer();
