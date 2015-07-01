@@ -32,10 +32,11 @@ $(document).ready( function() {
 function local_sm_user_select(e) {
     var u = $(this);
     var holder = u.parent('#sm-new-conversation #users');
-    var recipients = $('#sm-new-conversation #recipients');
+    var recipients = $('#sm-new-conversation #sm-recipients');
     holder.hide();
+    // TODO - user id maybe?
     var checkboxid = 'recipient' + Math.round(Math.random() * 1000000);
-    var checkbox = '<input type="checkbox" value="' + u.data('id') + '" checked="checked" id="' + checkboxid + '">';
+    var checkbox = '<input type="checkbox" value="' + u.data('id') + '" checked="checked" id="' + checkboxid + '" name="recipient[]">';
     checkbox += '<label for="' + checkboxid + '">' + u.data('name') + '</label>';
     recipients.append(checkbox);
 

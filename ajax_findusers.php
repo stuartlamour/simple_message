@@ -16,10 +16,12 @@ $name = required_param('sm_name', PARAM_ALPHA);
 
 require_login();
 
+
 if (strlen($name) > 0) {
     $users = local_simple_message_find_users($name);
     foreach ($users as $user) {
-        echo '<div class="user" data-id="' . $user->id . '" data-name="' . $user->full_name_clear . '"> ' . $user->firstname . ' ' . $user->lastname . '</div>';
+
+        echo '<div class="user" data-id="' . $user->id . '" data-name="' . $user->full_name_clear . '">' . $user->firstname . ' ' . $user->lastname . '</div>';
     }
 } else {
     echo '<div class="info">No users found</div>';
