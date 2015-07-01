@@ -35,7 +35,7 @@ function local_sm_user_select(e) {
     var recipients = $('#sm-new-conversation #recipients');
     holder.hide();
     var checkboxid = 'recipient' + Math.round(Math.random() * 1000000);
-    var checkbox = '<input type="checkbox" value="' + u.data('id') + '" checked="checked" id="' + checkboxid + '">';
+    var checkbox = '<input type="checkbox" value="' + u.data('id') + '" checked="checked" id="' + checkboxid + '" name="recipient[]">';
     checkbox += '<label for="' + checkboxid + '">' + u.data('name') + '</label>';
     recipients.append(checkbox);
 

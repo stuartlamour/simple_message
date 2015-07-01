@@ -10,10 +10,19 @@
 require_once(__DIR__ . '/../../config.php');
 require_once(__DIR__ . '/locallib.php');
 
+$conversationid = optional_param('conversation', -1, PARAM_INT);
+
+
+
 
 $context = context_system::instance();
 
+
+
+
 require_login();
+
+
 
 $PAGE->set_context($context);
 
@@ -36,12 +45,18 @@ $renderer = $PAGE->get_renderer('local_simple_message');
 echo $OUTPUT->header();
 
 
-/*echo "<div id='sm-wrapper' class='clearfix'>";
+echo "<div id='sm-wrapper' class='clearfix'>";
 echo $renderer->render_conversation();
-echo $renderer->render_navigation();
-echo "</div>";*/
 
-print_r(local_simple_message_find_users('u'));
+$conversation = local_simple_message_conversation::find_converstation_by_id($conversationid);
+
+
+
+echo $renderer->render_navigation($conversation);
+echo "</div>";
+echo '<a href="newconversation.php">Add a conversation</a> <br />';
+
+
 
 
 

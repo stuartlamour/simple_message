@@ -22,7 +22,7 @@ class local_simple_message_interface {
 }
 
 class local_simple_message_conversation {
-    private $id;
+    public $id;
     private $last_update;
     private $subject;
 
@@ -99,26 +99,31 @@ WHERE
         return $message;
     }
 
-    public static function create_conversation($users, $subject) {
+    public static function create_conversation($users, $subject = '') {
         global $DB;
-        $users = $DB->get_records_list('user', 'id', $users);
 
         if (count($users) == 2) {
-//TODO fix search
+            $conversation = self::find_conversation($users[0], $users[1]);
+            if (!is_null($conversation)) {
+                return $conversation;
+            }
         }
+
+        $users = $DB->get_records_list('user', 'id', $users);
+
 
         $conversation = new stdClass;
         $conversation->subject = $subject;
         $conversation->last_update = time();
         $conversation->id = $DB->insert_record('sm_conversation', $conversation);
 
-
+        print_r($users);
         foreach ($users as $user) {
             if ($user->deleted != false) {
                 $map = new stdClass;
                 $map->conversationid = $conversation->id;
                 $map->userid = $user->id;
-                $DB->insert_record('sm_conversation_users', $map, true, true);
+                $DB->insert_record('sm_conversation_users', $map);
             }
         }
 
