@@ -50,7 +50,7 @@ class local_simple_message_renderer extends plugin_renderer_base {
               </datalist>
               <a href="">Add</a>
               <hr>
-              <input type="checkbox" name="recepient" id="dave" value="dave" checked> <label for="dave">Dave</label> | 
+              <input type="checkbox" name="recepient" id="dave" value="dave" checked> <label for="dave">Dave</label>, 
               <input type="checkbox" name="recepient" id="bob" value="bob" checked> <label for="bob">Bob</label>
               <!-- <input type="checkbox" name="recepient" value="dave"> Dave<br>
               <input type="checkbox" name="recepient" value="bob" checked> Bob<br>
