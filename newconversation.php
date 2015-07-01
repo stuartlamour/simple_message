@@ -22,6 +22,9 @@ $PAGE->set_context($context);
 
 
 // Initialize $PAGE
+
+$PAGE->requires->js(new moodle_url($CFG->wwwroot . '/local/simple_message/js/sm.js'));
+
 $PAGE->set_url('/local/simple_message/newconversation.php');
 $PAGE->set_title(get_string('title', 'local_simple_message'));
 $PAGE->set_heading(get_string('title', 'local_simple_message'));

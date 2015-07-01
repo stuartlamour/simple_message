@@ -59,18 +59,22 @@ class local_simple_message_renderer extends plugin_renderer_base {
 
     public function render_new_conversation() {
       return '<div id="sm-new-conversation">
-              <input list="users" name="users" placeholder="Search for user">
-              <datalist id="users">
+              <input type="text" name="users" id="searchname" placeholder="Search for user">
+              <div id="users">
+              <!--
                 <option value="tom brown">
                 <option value="tom stan">
                 <option value="tom elliot">
                 <option value="bob stanley">
                 <option value="iggy pop">
                 <option value="david bowie">
-                <option value="ozzy">
-              </datalist>
+                <option value="ozzy">-->
+              </div>
               <a href="">Add</a>
               <hr>
+              <div id="recipients">
+              </div>
+<!--
               <input type="checkbox" name="recepient" id="dave" value="dave" checked> <label for="dave">Dave</label>,
               <input type="checkbox" name="recepient" id="bob" value="bob" checked> <label for="bob">Bob</label>
               <!-- <input type="checkbox" name="recepient" value="dave"> Dave<br>

@@ -75,8 +75,28 @@ WHERE
         return null;
     }
 
+    public static function find_converstation_by_id($convid) {
+        global $DB;
+        $conversation = $DB->get_record('sm_conversation', array('id' => $convid));
+        if ($conversation) {
+            return new local_simple_message_conversation($conversation);
+        }
+        return null;
+    }
+
     public static function find_conversations_for_user($userid) {
         //TODO..... 
+    }
+
+    public function send_message($from, $body) {
+        global $DB;
+        $message = new stdClass;
+        $message->senderid = $from;
+        $message->body = $body;
+        $message->timestamp = time();
+        $message->conversationid = $this->id;
+        $message->id =  $DB->insert_record('sm_message', $message);
+        return $message;
     }
 
     public static function create_conversation($users, $subject) {
@@ -84,7 +104,7 @@ WHERE
         $users = $DB->get_records_list('user', 'id', $users);
 
         if (count($users) == 2) {
-
+//TODO fix search
         }
 
         $conversation = new stdClass;
@@ -110,22 +130,6 @@ WHERE
 }
 
 
-class local_simple_message_message {
-    private $id;
-    private $senderid;
-    private $body;
-    private $timestamp;
-
-    public function __construct($id, $senderid, $body, $timestamp) {
-        $this->id = $id;
-        $this->senderid = $senderid;
-        $this->body = $body;
-        $this->timestamp = $timestamp;
-    }
-
-
-}
-
 
 function local_simple_message_find_users($name) {
     global $DB;
@@ -144,8 +148,10 @@ WHERE
     $users = $DB->get_records_sql($sql, array($searchname, $searchname));
     $pattern = '/^(' . $name . ')/i';
     foreach ($users as $id => $user) {
-        $users[$id]->firstname = preg_replace($pattern, '<strong>' . $name . '</strong>', $user->firstname);
-        $users[$id]->lastname = preg_replace($pattern, '<strong>' . $name . '</strong>', $user->lastname);
+        $users[$id]->full_name_clear = $user->firstname . ' ' . $user->lastname;
+        //TODO: onvert to moodle full name
+        $users[$id]->firstname = preg_replace($pattern, '<strong>$1</strong>', $user->firstname);
+        $users[$id]->lastname = preg_replace($pattern, '<strong>$1</strong>', $user->lastname);
     }
     return $users;
 }
