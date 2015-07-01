@@ -42,11 +42,12 @@ class local_simple_message_conversation {
 
     public function fetch_users() {
         global $DB;
+        return $DB->get_records('sm_conversation_users', array('conversationid' => $this->id));
     }
 
-    public function fetch_messages() {
+    public function fetch_messages($from = 0, $to = 50) {
         global $DB;
-        
+        return $DB->get_records('sm_message', array('conversationid' => $this->id), 'timestamp DESC', '*', $from, $to);
     }
 
     public static function find_conversation($user1, $user2) {
@@ -74,9 +75,17 @@ WHERE
         return null;
     }
 
+    public static function find_conversations_for_user($userid) {
+        //TODO..... 
+    }
+
     public static function create_conversation($users, $subject) {
         global $DB;
         $users = $DB->get_records_list('user', 'id', $users);
+
+        if (count($users) == 2) {
+
+        }
 
         $conversation = new stdClass;
         $conversation->subject = $subject;
