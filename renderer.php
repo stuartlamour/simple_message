@@ -21,8 +21,8 @@ class local_simple_message_renderer extends plugin_renderer_base {
           <li>User name </li>
           <li>User name <span class='sm-unread'>2</span></li>
           <li><a href='#sm-conversation'>User name <span class='sm-unread'>3</span></a></li>
-          <li>User name </li>
-          <li>User name <span class='sm-unread'>2</span></li>
+          <li><a href='#sm-conversation'>User name</a> </li>
+          <li><a href='#sm-conversation'>User name</a> <span class='sm-unread'>2</span></li>
           <li><a href='#sm-conversation'>User name <span class='sm-unread'>3</span></a></li>
           <li>User name </li>
           <li>User name <span class='sm-unread'>2</span></li>
@@ -58,8 +58,10 @@ class local_simple_message_renderer extends plugin_renderer_base {
     }
 
     public function render_new_conversation() {
-      return '<div id="sm-new-conversation">
-              <input type="text" name="users" id="searchname" placeholder="Search for user">
+      return '
+        <form method="post" enctype="multipart/form-data" action="newconversation.php" >
+        <div id="sm-new-conversation">
+              <input type="text" name="users" id="searchname" placeholder="Search for user" autocomplete="off">
               <div id="users">
               <!--
                 <option value="tom brown">
@@ -70,9 +72,8 @@ class local_simple_message_renderer extends plugin_renderer_base {
                 <option value="david bowie">
                 <option value="ozzy">-->
               </div>
-              <a href="">Add</a>
               <hr>
-              <div id="recipients">
+              <div id="sm-recipients">
               </div>
 <!--
               <input type="checkbox" name="recepient" id="dave" value="dave" checked> <label for="dave">Dave</label>,
@@ -92,45 +93,31 @@ class local_simple_message_renderer extends plugin_renderer_base {
               <input type="checkbox" name="recepient" value="dave"> Dave<br>
               <input type="checkbox" name="recepient" value="bob" checked> Bob<br>-->
               <hr>
-              <textarea>your message here</textarea>
+              <textarea name="sm_message">your message here</textarea>
               <br>
-              send
-              <a href="#sm-navigation">cancel</a>
+                <input type="submit" class="btn btn-link" value="Send" name="sendbtn" />
+                <input type="submit" class="btn btn-link" value="Cancel" name="cancelbtn" />
               <hr>
 
-              </div>';
+              </div>
+              </form>';
     }
 
-    public function render_conversation() {
-              return "<div id='sm-conversation'>
+    public function render_conversation($conversation) {
+        if (is_null($conversation)) {
+            $messages = array();
+        } else {
+            $messages = $conversation->fetch_messages();
+        }
+        $output = "<div id='sm-conversation'>
                       <h6>Conversation title</h6>
-                      <div id='sm-conversation-messages'>
+                      <div id='sm-conversation-messages'>";
+        foreach ($messages as $message) {
+            $output .= '<div></div>
+                      <div><p>' . $message->body . '</p><hr></div>';
+        }
 
-                      <div>img name date</div>
-                      <div><p>Messages</p><hr></div>
-                      <div>img name date</div>
-                      <div><p>Messages</p><hr></div>
-                      <div>img name date</div>
-                      <div><p>Messages</p><hr></div>
-                      <div>img name date</div>
-                      <div><p>Messages</p><hr></div>
-                      <div>img name date</div>
-                      <div><p>Messages</p><hr></div>
-                      <div>img name date</div>
-                      <div><p>Messages</p><hr></div>
-                      <div>img name date</div>
-                      <div><p>Messages</p><hr></div>
-                      <div>img name date</div>
-                      <div><p>Messages</p><hr></div>
-                      <div>img name date</div>
-                      <div><p>Messages</p><hr></div>
-                      <div>img name date</div>
-                      <div><p>Messages</p><hr></div>
-                      <div>img name date</div>
-                      <div><p>Messages</p><hr></div>
-                      <div>img name date</div>
-                      <div><p>Messages</p><hr></div>
-
+        $output .= "
                       </div>
                       <hr>
                       <textarea>your message here</textarea>

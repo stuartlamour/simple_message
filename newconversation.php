@@ -7,12 +7,38 @@
  */
 
 
-require_once('../../config.php');
+require_once(__DIR__ . '/../../config.php');
+require_once(__DIR__ . '/locallib.php');
 
 
 $context = context_system::instance();
 
+$sendbtn = optional_param('sendbtn', false, PARAM_ALPHA);
+$cancelbtn = optional_param('cancelbtn', false, PARAM_ALPHA);
+
+
 require_login();
+
+
+if ($cancelbtn) {
+    redirect('index.php');
+    die;
+} else if ($sendbtn) {
+    $messagebody = optional_param('sm_message', false, PARAM_TEXT);
+    $recipients = optional_param_array('recipient', false, PARAM_INT);
+    $url = 'index.php';
+    if (!empty($recipients) && !empty($messagebody)) {
+        $recipients[] = $USER->id;
+        $recipients = array_flip($recipients);
+        $recipients = array_keys($recipients);
+        $conversation = local_simple_message_conversation::create_conversation($recipients);
+        $conversation->send_message($USER->id, $messagebody);
+        $url = 'index.php?conversation=' . $conversation->id;
+    }
+
+    redirect($url);
+    die;
+}
 
 $PAGE->set_context($context);
 
