@@ -125,6 +125,7 @@ class local_simple_message_renderer extends plugin_renderer_base {
                       send
                       <a href='#sm-navigation'>cancel</a>
                       </div>";
+        return $output;
       }
 
 

@@ -85,7 +85,7 @@ WHERE
     }
 
     public static function find_conversations_for_user($userid) {
-        //TODO..... 
+        //TODO.....
     }
 
     public function send_message($from, $body) {
@@ -117,7 +117,7 @@ WHERE
         $conversation->last_update = time();
         $conversation->id = $DB->insert_record('sm_conversation', $conversation);
 
-        print_r($users);
+        //print_r($users);
         foreach ($users as $user) {
             if ($user->deleted != false) {
                 $map = new stdClass;
