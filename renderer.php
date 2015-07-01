@@ -14,9 +14,30 @@ class local_simple_message_renderer extends plugin_renderer_base {
 
     public function render_navigation() {
         return "<nav id='sm-navigation'>
-        <h5>Message</h5>
+        <h5>Messages</h5>
         <h6>Direct <a href='newconversation.php'>new message</a></h6>
         <ol>
+          <li><a href='#sm-conversation'>User name <span class='sm-unread'>3</span></a></li>
+          <li>User name </li>
+          <li>User name <span class='sm-unread'>2</span></li>
+          <li><a href='#sm-conversation'>User name <span class='sm-unread'>3</span></a></li>
+          <li>User name </li>
+          <li>User name <span class='sm-unread'>2</span></li>
+          <li><a href='#sm-conversation'>User name <span class='sm-unread'>3</span></a></li>
+          <li>User name </li>
+          <li>User name <span class='sm-unread'>2</span></li>
+          <li><a href='#sm-conversation'>User name <span class='sm-unread'>3</span></a></li>
+          <li>User name </li>
+          <li>User name <span class='sm-unread'>2</span></li>
+          <li><a href='#sm-conversation'>User name <span class='sm-unread'>3</span></a></li>
+          <li>User name </li>
+          <li>User name <span class='sm-unread'>2</span></li>
+          <li><a href='#sm-conversation'>User name <span class='sm-unread'>3</span></a></li>
+          <li>User name </li>
+          <li>User name <span class='sm-unread'>2</span></li>
+          <li><a href='#sm-conversation'>User name <span class='sm-unread'>3</span></a></li>
+          <li>User name </li>
+          <li>User name <span class='sm-unread'>2</span></li>
           <li><a href='#sm-conversation'>User name <span class='sm-unread'>3</span></a></li>
           <li>User name </li>
           <li>User name <span class='sm-unread'>2</span></li>
@@ -41,8 +62,8 @@ class local_simple_message_renderer extends plugin_renderer_base {
               <input list="users" name="users" placeholder="Search for user">
               <datalist id="users">
                 <option value="tom brown">
-                  <option value="tom stan">
-                    <option value="tom elliot">
+                <option value="tom stan">
+                <option value="tom elliot">
                 <option value="bob stanley">
                 <option value="iggy pop">
                 <option value="david bowie">
@@ -50,7 +71,7 @@ class local_simple_message_renderer extends plugin_renderer_base {
               </datalist>
               <a href="">Add</a>
               <hr>
-              <input type="checkbox" name="recepient" id="dave" value="dave" checked> <label for="dave">Dave</label>, 
+              <input type="checkbox" name="recepient" id="dave" value="dave" checked> <label for="dave">Dave</label>,
               <input type="checkbox" name="recepient" id="bob" value="bob" checked> <label for="bob">Bob</label>
               <!-- <input type="checkbox" name="recepient" value="dave"> Dave<br>
               <input type="checkbox" name="recepient" value="bob" checked> Bob<br>
@@ -79,12 +100,35 @@ class local_simple_message_renderer extends plugin_renderer_base {
     public function render_conversation() {
               return "<div id='sm-conversation'>
                       <h6>Conversation title</h6>
+                      <div id='sm-conversation-messages'>
+
                       <div>img name date</div>
                       <div><p>Messages</p><hr></div>
                       <div>img name date</div>
                       <div><p>Messages</p><hr></div>
                       <div>img name date</div>
                       <div><p>Messages</p><hr></div>
+                      <div>img name date</div>
+                      <div><p>Messages</p><hr></div>
+                      <div>img name date</div>
+                      <div><p>Messages</p><hr></div>
+                      <div>img name date</div>
+                      <div><p>Messages</p><hr></div>
+                      <div>img name date</div>
+                      <div><p>Messages</p><hr></div>
+                      <div>img name date</div>
+                      <div><p>Messages</p><hr></div>
+                      <div>img name date</div>
+                      <div><p>Messages</p><hr></div>
+                      <div>img name date</div>
+                      <div><p>Messages</p><hr></div>
+                      <div>img name date</div>
+                      <div><p>Messages</p><hr></div>
+                      <div>img name date</div>
+                      <div><p>Messages</p><hr></div>
+
+                      </div>
+                      <hr>
                       <textarea>your message here</textarea>
                       <br>
                       send

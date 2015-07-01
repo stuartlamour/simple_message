@@ -21,6 +21,7 @@ $PAGE->set_context($context);
 // - set url (when selected a new conversation..)
 // - title
 
+$PAGE->requires->js(new moodle_url($CFG->wwwroot . '/local/simple_message/js/sm.js'));
 
 // Initialize $PAGE
 $PAGE->set_url('/local/simple_message/message.php');

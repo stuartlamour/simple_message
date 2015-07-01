@@ -6,16 +6,31 @@
 }
 .path-local-simple_message #page-mast h1 {display:none;}
 
-input[type="checkbox"] { display:none;}
-input[type="checkbox"]:checked + label {
+/*
+.path-local-simple_message input[type="checkbox"] { display:none;}
+.path-local-simple_message input[type="checkbox"]:checked + label {
   color:red;
 }
-
+*/
 
 #sm-conversation,
 #sm-navigation {
     width:50%;
     float:right;
+}
+#sm-conversation #sm-conversation-messages {
+    max-height:50vh;
+    padding:0 4%;
+    overflow-x:scroll;
+}
+
+
+#sm-navigation ol {
+  max-height:33vh;
+  padding:0 4%;
+  list-style:none;
+  overflow-x:scroll;
+  direction:rtl;
 }
 
 @media screen and (max-width: 600px) {
