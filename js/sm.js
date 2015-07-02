@@ -1,5 +1,6 @@
 
 /* Scroll to bottom of user messages */
+// TODO - this should really scroll to the first unread iteam, and focus for screenreaders.
 var messageWindow = document.getElementById("sm-conversation-messages");
 if(messageWindow) {
     messageWindow.scrollTop = messageWindow.scrollHeight;

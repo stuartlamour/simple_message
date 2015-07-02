@@ -104,7 +104,7 @@ class local_simple_message_renderer extends plugin_renderer_base {
     }
 
     public function render_conversation($conversation) {
-        if (is_null($conversation)) {
+        if (is_null($conversation) && false) {
             $messages = array();
         } else {
             $messages = $conversation->fetch_messages();
@@ -113,8 +113,7 @@ class local_simple_message_renderer extends plugin_renderer_base {
                       <h6>Conversation title</h6>
                       <div id='sm-conversation-messages'>";
         foreach ($messages as $message) {
-            $output .= '<div></div>
-                      <div><p>' . $message->body . '</p><hr></div>';
+            $output .= '<div>user image name date<p>' . $message->body . '</p><hr></div>';
         }
 
         $output .= "
@@ -124,7 +123,7 @@ class local_simple_message_renderer extends plugin_renderer_base {
                       <br>
                       send
                       <a href='#sm-navigation'>cancel</a>
-                      </div>";
+                    </div>";
         return $output;
       }
 
