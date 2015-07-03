@@ -21,7 +21,6 @@ if (strlen($name) > 0) {
 
     $users = local_simple_message_find_users($name);
     foreach ($users as $user) {
-      $this->render_user_image($user);
         echo '<div class="sm-user" data-id="' . $user->id . '" data-name="' . $user->full_name_clear . '">' . $user->firstname . ' ' . $user->lastname . '</div>';
     }
 } else {
