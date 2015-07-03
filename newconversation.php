@@ -49,6 +49,10 @@ $PAGE->set_context($context);
 
 // Initialize $PAGE
 
+$PAGE->requires->jquery();
+$PAGE->requires->jquery_plugin('ui');
+$PAGE->requires->jquery_plugin('ui-css');
+
 $PAGE->requires->js(new moodle_url($CFG->wwwroot . '/local/simple_message/js/sm.js'));
 
 $PAGE->set_url('/local/simple_message/newconversation.php');
