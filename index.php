@@ -36,22 +36,16 @@ $PAGE->requires->js(new moodle_url($CFG->wwwroot . '/local/simple_message/js/sm.
 $PAGE->set_url('/local/simple_message/message.php');
 $PAGE->set_title(get_string('title', 'local_simple_message'));
 $PAGE->set_heading(get_string('title', 'local_simple_message'));
-
-
 $renderer = $PAGE->get_renderer('local_simple_message');
-
 /// Print the page header
 
 echo $OUTPUT->header();
 
 
 echo "<div id='sm-wrapper' class='clearfix'>";
-
-
-
 echo $renderer->render_navigation();
-
 $conversation = local_simple_message_conversation::find_converstation_by_id($conversationid);
+// print_r($conversation);
 echo $renderer->render_conversation($conversation);
 echo "</div>";
 

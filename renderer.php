@@ -61,41 +61,16 @@ class local_simple_message_renderer extends plugin_renderer_base {
       return '
         <form method="post" enctype="multipart/form-data" action="newconversation.php" >
         <div id="sm-new-conversation">
-              <input type="text" name="users" id="searchname" placeholder="Search for user" autocomplete="off">
-              <div id="users">
-              <!--
-                <option value="tom brown">
-                <option value="tom stan">
-                <option value="tom elliot">
-                <option value="bob stanley">
-                <option value="iggy pop">
-                <option value="david bowie">
-                <option value="ozzy">-->
+              <input type="text" name="users" id="sm-searchname" placeholder="Search for user" autocomplete="off">
+              <div id="sm-users">
               </div>
               <hr>
               <div id="sm-recipients">
               </div>
-<!--
-              <input type="checkbox" name="recepient" id="dave" value="dave" checked> <label for="dave">Dave</label>,
-              <input type="checkbox" name="recepient" id="bob" value="bob" checked> <label for="bob">Bob</label>
-              <!-- <input type="checkbox" name="recepient" value="dave"> Dave<br>
-              <input type="checkbox" name="recepient" value="bob" checked> Bob<br>
-              <input type="checkbox" name="recepient" value="dave"> Dave<br>
-              <input type="checkbox" name="recepient" value="bob" checked> Bob<br>
-              <input type="checkbox" name="recepient" value="dave"> Dave<br>
-              <input type="checkbox" name="recepient" value="bob" checked> Bob<br>
-              <input type="checkbox" name="recepient" value="dave"> Dave<br>
-              <input type="checkbox" name="recepient" value="bob" checked> Bob<br>
-              <input type="checkbox" name="recepient" value="dave"> Dave<br>
-              <input type="checkbox" name="recepient" value="bob" checked> Bob<br>
-              <input type="checkbox" name="recepient" value="dave"> Dave<br>
-              <input type="checkbox" name="recepient" value="bob" checked> Bob<br>
-              <input type="checkbox" name="recepient" value="dave"> Dave<br>
-              <input type="checkbox" name="recepient" value="bob" checked> Bob<br>-->
               <hr>
-              <textarea name="sm_message">your message here</textarea>
+              <textarea name="sm-message">your message here</textarea>
               <br>
-                <input type="submit" class="btn btn-link" value="Send" name="sendbtn" />
+                <input type="submit" class="btn" value="Send" name="sendbtn" />
                 <input type="submit" class="btn btn-link" value="Cancel" name="cancelbtn" />
               <hr>
 
@@ -104,43 +79,61 @@ class local_simple_message_renderer extends plugin_renderer_base {
     }
 
     public function render_conversation($conversation) {
-        if (is_null($conversation) && false) {
-            $messages = array();
-        } else {
+        if ($conversation) {
+          global $DB;
             $messages = $conversation->fetch_messages();
+            $m_output = "<div id='sm-conversation-messages'>";
+
+            // TODO - should we move this object building out of renderer?
+
+            // Get all the conversation users in one db call
+            $sendersids = array();
+            foreach ($messages as $message) {
+                    $sendersids[] = $message->senderid;
+            }
+            $senders = $DB->get_records_list('user', 'id', $sendersids);
+            foreach ($messages as $message) {
+                $messagemeta = $this->render_user($senders[$message->senderid]);
+                $messagemeta .= $message->timestamp;
+                $m_output .= "<div>$messagemeta<p>". $message->body . "</p><hr></div>";
+            }
+            $m_output .= "</div>";
+            $m_output .= "<hr>
+                          <textarea>your message here</textarea>
+                          <br>
+                          send
+                          <a href='#sm-navigation'>cancel</a>";
         }
-        $output = "<div id='sm-conversation'>
-                      <h6>Conversation title</h6>
-                      <div id='sm-conversation-messages'>";
-        foreach ($messages as $message) {
-            $output .= '<div>user image name date<p>' . $message->body . '</p><hr></div>';
+        else {
+          // TODO - no conversation passed in...
+          // How did we get to this state? What is a good thing to show?
+          $m_output = "<h6>Welcome to messages</h6>
+          <p>Simple messages lets you to have conversations with individual memebers of your courses,
+           an entire course cohort or pick a few people to have a conversation with.</p>";
         }
 
-        $output .= "
-                      </div>
-                      <hr>
-                      <textarea>your message here</textarea>
-                      <br>
-                      send
-                      <a href='#sm-navigation'>cancel</a>
+        $output = "<div id='sm-conversation'>
+                      <h6>Conversation title</h6>
+                      $m_output
                     </div>";
+
+        // $output .= $this->render_user_image();
         return $output;
       }
 
 
       public function render_user($user) {
-          // icon
+          global $USER;
+          $user = $USER;
           $userpicture = new user_picture($user);
           $userpicture->link = false;
           $userpicture->alttext = false;
-          $userpicture->size = 50;
+          $userpicture->size = 38;
           $picture = $this->render($userpicture);
           // name
           $fullname = format_string(fullname($user));
-
           return "<div class='sm-user'>
-                $picture
-                $fullname
+                $picture $fullname
                 </div>";
       }
 
