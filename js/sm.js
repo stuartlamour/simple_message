@@ -1,14 +1,17 @@
 
 /* Scroll to bottom of user messages */
 // TODO - this should really scroll to the first unread iteam, and focus for screenreaders.
-var messageWindow = document.getElementById("sm-conversation-messages");
-if(messageWindow) {
-    messageWindow.scrollTop = messageWindow.scrollHeight;
+function setMessageScroll() {
+	var messageWindow = document.getElementById("sm-conversation-messages");
+	if(messageWindow) {
+		messageWindow.scrollTop = messageWindow.scrollHeight;
+	}
 }
 
 
 /* ajax search users */
 $(document).ready( function() {
+	setMessageScroll(); // execute when DOM is fully available
     $('#sm-new-conversation #sm-users').hide();
     $('#sm-new-conversation #sm-searchname').keyup(function(e) {
         $('#sm-new-conversation #sm-users .sm-user').off('click');
