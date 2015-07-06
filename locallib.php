@@ -76,7 +76,7 @@ WHERE
         return null;
     }
 	
-	public static function find_conversation($userids) {
+	public static function find_conversation_by_users($userids) {
 		global $DB;
 		
 		$sql = '
