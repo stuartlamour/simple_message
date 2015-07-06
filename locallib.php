@@ -34,7 +34,8 @@ class local_simple_message_conversation {
             $this->last_update = $conversationorid->last_update;
             $this->subject = $conversationorid->subject;
         }  else {
-            $this->id = $id;
+            //$this->id = $id;
+			$this->id = $conversationorid;
             $this->last_update = $last_update;
             $this->subject = $subject;
         }
@@ -86,6 +87,27 @@ WHERE
 
     public static function find_conversations_for_user($userid) {
         //TODO.....
+		global $DB;
+		
+		$sql = '
+SELECT c.*
+
+FROM
+	{sm_conversation} c
+JOIN
+	{sm_conversation_users} cu ON cu.conversationid = c.id
+WHERE
+	cu.userid = ?';
+		
+		$records = $DB->get_records_sql($sql, array($userid));
+		if (!empty($records)) {
+			$conversations = array();
+			foreach ($records as $record) {
+				$conversations[] = new local_simple_message_conversation($record);
+			}
+			return $conversations;
+		}
+		return null;
     }
 
     public function send_message($from, $body) {
