@@ -172,7 +172,7 @@ WHERE
 
         //print_r($users);
         foreach ($users as $user) {
-            if ($user->deleted != false) {
+			if (!$user->deleted) {
                 $map = new stdClass;
                 $map->conversationid = $conversation->id;
                 $map->userid = $user->id;
