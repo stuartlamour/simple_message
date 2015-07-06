@@ -95,7 +95,9 @@ GROUP BY
 HAVING
     COUNT(*) = ?';
 		
-		$params = new ArrayObject($userids)->getArrayCopy();
+		$params = array();
+		foreach ($userids as $userid)
+			$params[] = $userid;
 		$params[] = count($userids);
 		
 		$conversations = $DB->get_records_sql($sql, $params);
