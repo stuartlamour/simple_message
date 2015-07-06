@@ -75,6 +75,35 @@ WHERE
         }
         return null;
     }
+	
+	public static function find_conversation($userids) {
+		global $DB;
+		
+		$sql = '
+SELECT
+    c.id,
+	c.subject,
+	c.last_update
+FROM
+    {sm_conversation} c
+JOIN
+    {sm_conversation_users} cu ON cu.conversationid = c.id
+WHERE
+    cu.userid IN (' . implode(',', array_fill(0, count($userids), '?')) . ')
+GROUP BY
+    c.id
+HAVING
+    COUNT(*) = ?';
+		
+		$params = new ArrayObject($userids)->getArrayCopy();
+		$params[] = count($userids);
+		
+		$conversations = $DB->get_records_sql($sql, $params);
+		if (!empty($conversations)) {
+			return new local_simple_message_conversation(reset($conversations));
+		}
+		return null;
+	}
 
     public static function find_converstation_by_id($convid) {
         global $DB;
@@ -90,14 +119,14 @@ WHERE
 		global $DB;
 		
 		$sql = '
-SELECT c.*
-
+SELECT
+    c.*
 FROM
-	{sm_conversation} c
+    {sm_conversation} c
 JOIN
-	{sm_conversation_users} cu ON cu.conversationid = c.id
+    {sm_conversation_users} cu ON cu.conversationid = c.id
 WHERE
-	cu.userid = ?';
+    cu.userid = ?';
 		
 		$records = $DB->get_records_sql($sql, array($userid));
 		if (!empty($records)) {
