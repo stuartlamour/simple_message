@@ -35,7 +35,7 @@ class local_simple_message_conversation {
             $this->subject = $conversationorid->subject;
         }  else {
             //$this->id = $id;
-			$this->id = $conversationorid;
+            $this->id = $conversationorid;
             $this->last_update = $last_update;
             $this->subject = $subject;
         }
@@ -48,7 +48,8 @@ class local_simple_message_conversation {
 
     public function fetch_messages($from = 0, $to = 50) {
         global $DB;
-        return $DB->get_records('sm_message', array('conversationid' => $this->id), 'timestamp DESC', '*', $from, $to);
+        // we scroll down to latest message, so order messages by timestamp ascending
+		return $DB->get_records('sm_message', array('conversationid' => $this->id), 'timestamp ASC', '*', $from, $to);
     }
 
     public static function find_conversation($user1, $user2) {
@@ -155,12 +156,18 @@ WHERE
     public static function create_conversation($users, $subject = '') {
         global $DB;
 
-        if (count($users) == 2) {
+        /*if (count($users) == 2) {
             $conversation = self::find_conversation($users[0], $users[1]);
             if (!is_null($conversation)) {
                 return $conversation;
             }
-        }
+        }*/
+		if (!empty($users)) {
+			$conversation = self::find_conversation_by_users($users);
+			if (!is_null($conversation)) {
+				return $conversation;
+			}
+		}
 
         $users = $DB->get_records_list('user', 'id', $users);
 

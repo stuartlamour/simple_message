@@ -68,10 +68,7 @@ class local_simple_message_renderer extends plugin_renderer_base {
               <div id="sm-recipients">
               </div>
               <hr>
-              <textarea name="sm-message">your message here</textarea>
-              <br>
-                <input type="submit" class="btn" value="Send" name="sendbtn" />
-                <input type="submit" class="btn btn-link" value="Cancel" name="cancelbtn" />
+			  ' . $this->render_message_form() . '
               <hr>
 
               </div>
@@ -93,16 +90,19 @@ class local_simple_message_renderer extends plugin_renderer_base {
             }
             $senders = $DB->get_records_list('user', 'id', $sendersids);
             foreach ($messages as $message) {
-                $messagemeta = $this->render_user($senders[$message->senderid]);
-                $messagemeta .= $message->timestamp;
+				$messagemeta = $this->render_user($senders[$message->senderid]);
+                //$messagemeta .= $message->timestamp;
+				$messagemeta .= userdate($message->timestamp);
                 $m_output .= "<div>$messagemeta<p>". $message->body . "</p><hr></div>";
             }
             $m_output .= "</div>";
-            $m_output .= "<hr>
+            /*$m_output .= "<hr>
                           <textarea>your message here</textarea>
                           <br>
                           send
-                          <a href='#sm-navigation'>cancel</a>";
+                          <a href='#sm-navigation'>cancel</a>";*/
+			$m_output .= "<hr>";
+			$m_output .= $this->render_conversation_reply($conversation);
         }
         else {
           // TODO - no conversation passed in...
@@ -120,11 +120,40 @@ class local_simple_message_renderer extends plugin_renderer_base {
         // $output .= $this->render_user_image();
         return $output;
       }
+	  
+	  public function render_conversation_reply($conversation) {
+        global $DB;
+		
+		$recipientshtml = '';
+		$users = $DB->get_records('sm_conversation_users', array('conversationid' => $conversation->id));
+		
+		foreach ($users as $user) {
+			$recipientshtml .= '<input type="hidden" name="recipient[]" value="' . $user->userid . '" />';
+		}
+		
+		return '
+		  <form method="post" enctype="multipart/form-data" action="newconversation.php" >
+		  <div id="sm-conversation-reply">
+		    ' . $recipientshtml . '
+			' . $this->render_message_form() . '
+		  </div>
+		  </form>';
+	  }
+	  
+	  public function render_message_form() {
+	    return '<textarea name="sm_message"></textarea>
+                <br>
+                <input type="submit" class="btn" value="Send" name="sendbtn" />
+                <input type="submit" class="btn btn-link" value="Cancel" name="cancelbtn" />';
+	  }
 
 
-      public function render_user($user) {
-          global $USER;
-          $user = $USER;
+      public function render_user($user = null) {
+		  if (is_null($user)) {
+		  	global $USER;
+          	$user = $USER;
+		  }
+		  
           $userpicture = new user_picture($user);
           $userpicture->link = false;
           $userpicture->alttext = false;

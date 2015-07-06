@@ -14,3 +14,4 @@ $string['title'] = 'Messaging made easy';
 
 $string['oneuserfound'] = '1 user found';
 $string['xusersfound'] = '{$a} users found';
+$string['nousersfound'] = 'No users found';

@@ -77,6 +77,11 @@
     color: #fff;
 }
 
+#sm-conversation-reply textarea {
+    width: 100%;
+    height: 125px;
+}
+
 #sm-users .sm-user {
     cursor: pointer; /* show pointer to show that user entry is "hot" */
 }

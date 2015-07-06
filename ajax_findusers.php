@@ -33,6 +33,6 @@ if (strlen($name) > 0) {
 		
 		echo '<div class="info">' . $info . '</div>';
 	} else {
-		echo '<div class="info">No users found</div>';
+		echo '<div class="info">' . get_string('nousersfound', 'local_simple_message') . '</div>';
 	}
 }
