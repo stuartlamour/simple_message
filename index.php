@@ -47,12 +47,22 @@ $renderer = $PAGE->get_renderer('local_simple_message');
 echo $OUTPUT->header();
 
 
-echo "<div id='sm-wrapper' class='clearfix'>";
-echo $renderer->render_navigation();
-$conversation = local_simple_message_conversation::find_converstation_by_id($conversationid);
-// print_r($conversation);
-echo $renderer->render_conversation($conversation);
-echo "</div>";
+if ($conversationid >= 0) {
+	global $DB;
+	
+	if ($DB->count_records('sm_conversation_users', array('conversationid' => $conversationid, 'userid' => $USER->id)) == 0) {
+		// no entry for current user in conversation, so user can't view messages
+		error('You cannot view this conversation.');
+	}
+	
+	echo "<div id='sm-wrapper' class='clearfix'>";
+	echo $renderer->render_navigation();
+	
+	$conversation = local_simple_message_conversation::find_converstation_by_id($conversationid);
+	// print_r($conversation);
+	echo $renderer->render_conversation($conversation);
+	echo "</div>";
+}
 
 
 echo $OUTPUT->footer();
