@@ -11,3 +11,6 @@ defined('MOODLE_INTERNAL') || die;
 $string['pluginname'] = 'Moodle simple messaging';
 
 $string['title'] = 'Messaging made easy';
+
+$string['oneuserfound'] = '1 user found';
+$string['xusersfound'] = '{$a} users found';

@@ -77,6 +77,14 @@
     color: #fff;
 }
 
+#sm-users .sm-user {
+    cursor: pointer; /* show pointer to show that user entry is "hot" */
+}
+
+#sm-users .info {
+    font-weight: bold; /* show info in bold */
+}
+
 @media screen and (max-width: 600px) {
   #sm-conversation,
   #sm-navigation {

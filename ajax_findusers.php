@@ -23,8 +23,15 @@ if (strlen($name) > 0) {
     foreach ($users as $user) {
         echo '<div class="sm-user" data-id="' . $user->id . '" data-name="' . $user->full_name_clear . '">' . $user->firstname . ' ' . $user->lastname . '</div>';
     }
+	
+	if (count($users) > 0) {
+		$info = '';
+		
+		if (count($users) == 1) $info = get_string('oneuserfound', 'local_simple_message');
+		else $info = get_string('xusersfound', 'local_simple_message', count($users));
+		
+		echo '<div class="info">' . $info . '</div>';
+	}
 } else {
     echo '<div class="info">No users found</div>';
 }
-
-//TODO: display found users count
