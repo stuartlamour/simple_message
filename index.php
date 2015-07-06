@@ -30,6 +30,11 @@ $PAGE->set_context($context);
 // - set url (when selected a new conversation..)
 // - title
 
+// Add jQuery support for pre-2.9 versions
+$PAGE->requires->jquery();
+$PAGE->requires->jquery_plugin('ui');
+$PAGE->requires->jquery_plugin('ui-css');
+
 $PAGE->requires->js(new moodle_url($CFG->wwwroot . '/local/simple_message/js/sm.js'));
 
 // Initialize $PAGE

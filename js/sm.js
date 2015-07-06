@@ -11,7 +11,7 @@ function setMessageScroll() {
 
 /* ajax search users */
 $(document).ready( function() {
-	setMessageScroll(); // execute when DOM is fully available
+    setMessageScroll(); // execute when DOM is fully available
     $('#sm-new-conversation #sm-users').hide();
     $('#sm-new-conversation #sm-searchname').keyup(function(e) {
         $('#sm-new-conversation #sm-users .sm-user').off('click');
@@ -25,7 +25,10 @@ $(document).ready( function() {
                     $('#sm-new-conversation #sm-users').html(data);
                     $('#sm-new-conversation #sm-users .sm-user').click(local_sm_user_select);
                     $('#sm-new-conversation #sm-users').show();
+                } else {
+                    $('#sm-new-conversation #sm-users').empty();
                 }
+				
             }
         });
 
