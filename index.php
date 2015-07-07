@@ -37,6 +37,10 @@ $PAGE->requires->jquery_plugin('ui-css');
 
 $PAGE->requires->js(new moodle_url($CFG->wwwroot . '/local/simple_message/js/sm.js'));
 
+// Import strings for dialog boxes
+$PAGE->requires->string_for_js('cantsendempty', 'local_simple_message');
+$PAGE->requires->string_for_js('wannadiscard', 'local_simple_message');
+
 // Initialize $PAGE
 $PAGE->set_url('/local/simple_message/message.php');
 $PAGE->set_title(get_string('title', 'local_simple_message'));

@@ -15,3 +15,6 @@ $string['title'] = 'Messaging made easy';
 $string['oneuserfound'] = '1 user found';
 $string['xusersfound'] = '{$a} users found';
 $string['nousersfound'] = 'No users found';
+
+$string['cantsendempty'] = 'You cannot send an empty message.';
+$string['wannadiscard'] = 'Do you really want to discard your message?';

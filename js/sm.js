@@ -35,13 +35,13 @@ $(document).ready( function() {
     });
 	$('#sm-message-form input[name=sendbtn]').click(function(e) {
 		if ($('#sm-message-form textarea[name=sm_message]').val().trim().length == 0) {
-			alert('You cannot send an empty message.');
+			alert(M.util.get_string('cantsendempty', 'local_simple_message'));
 			e.preventDefault();
 		}
 	});
 	$('#sm-message-form input[name=cancelbtn]').click(function(e) {
 		if ($('#sm-message-form textarea[name=sm_message]').val().trim().length != 0) {
-			if (!confirm('Do you really want to discard your message?'))
+			if (!confirm(M.util.get_string('wannadiscard', 'local_simple_message')))
 				e.preventDefault();
 		}
 	});
