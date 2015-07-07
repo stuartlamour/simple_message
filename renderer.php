@@ -59,7 +59,7 @@ class local_simple_message_renderer extends plugin_renderer_base {
 
     public function render_new_conversation() {
       return '
-        <form method="post" enctype="multipart/form-data" action="newconversation.php" >
+        <form method="post" enctype="multipart/form-data" action="newconversation.php" id="sm-message-form" >
         <div id="sm-new-conversation">
               <input type="text" name="users" id="sm-searchname" placeholder="Search for user" autocomplete="off">
               <div id="sm-users">
@@ -76,8 +76,10 @@ class local_simple_message_renderer extends plugin_renderer_base {
     }
 
     public function render_conversation($conversation) {
-        if ($conversation) {
-          global $DB;
+        $output = '';
+		
+		if ($conversation) {
+            global $DB;
             $messages = $conversation->fetch_messages();
             $m_output = "<div id='sm-conversation-messages'>";
 
@@ -91,33 +93,22 @@ class local_simple_message_renderer extends plugin_renderer_base {
             $senders = $DB->get_records_list('user', 'id', $sendersids);
             foreach ($messages as $message) {
 				$messagemeta = $this->render_user($senders[$message->senderid]);
-                //$messagemeta .= $message->timestamp;
+				// Display formatted date instead of timestamp
 				$messagemeta .= userdate($message->timestamp);
                 $m_output .= "<div>$messagemeta<p>". $message->body . "</p><hr></div>";
             }
             $m_output .= "</div>";
-            /*$m_output .= "<hr>
-                          <textarea>your message here</textarea>
-                          <br>
-                          send
-                          <a href='#sm-navigation'>cancel</a>";*/
 			$m_output .= "<hr>";
 			$m_output .= $this->render_conversation_reply($conversation);
-        }
-        else {
-          // TODO - no conversation passed in...
-          // How did we get to this state? What is a good thing to show?
-          $m_output = "<h6>Welcome to messages</h6>
-          <p>Simple messages lets you to have conversations with individual memebers of your courses,
-           an entire course cohort or pick a few people to have a conversation with.</p>";
-        }
+			
+			$output = "<div id='sm-conversation'>
+                          <h6>Conversation title</h6>
+                          $m_output
+                       </div>";
 
-        $output = "<div id='sm-conversation'>
-                      <h6>Conversation title</h6>
-                      $m_output
-                    </div>";
-
-        // $output .= $this->render_user_image();
+			// $output .= $this->render_user_image();
+        }
+		
         return $output;
       }
 	  
@@ -132,7 +123,7 @@ class local_simple_message_renderer extends plugin_renderer_base {
 		}
 		
 		return '
-		  <form method="post" enctype="multipart/form-data" action="newconversation.php" >
+		  <form method="post" enctype="multipart/form-data" action="newconversation.php" id="sm-message-form" >
 		  <div id="sm-conversation-reply">
 		    ' . $recipientshtml . '
 			' . $this->render_message_form() . '
@@ -146,6 +137,16 @@ class local_simple_message_renderer extends plugin_renderer_base {
                 <input type="submit" class="btn" value="Send" name="sendbtn" />
                 <input type="submit" class="btn btn-link" value="Cancel" name="cancelbtn" />';
 	  }
+	  
+	  public function render_welcome_message() {
+	    return "<div id='sm-conversation'>
+                   <h6>Welcome to messages</h6>
+                   <p>Simple messages lets you to have conversations with individual memebers of your courses,
+                    an entire course cohort or pick a few people to have a conversation with.</p>
+                 </div>";
+	  }
+	  
+
 
 
       public function render_user($user = null) {

@@ -61,7 +61,7 @@ if ($conversationid >= 0) {
 	// print_r($conversation);
 	echo $renderer->render_conversation($conversation);
 } else {
-	echo $renderer->render_conversation();
+	echo $renderer->render_welcome_message();
 }
 
 echo "</div>";
