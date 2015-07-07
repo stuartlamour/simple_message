@@ -91,14 +91,27 @@ JOIN
     {sm_conversation_users} cu ON cu.conversationid = c.id
 WHERE
     cu.userid IN (' . implode(',', array_fill(0, count($userids), '?')) . ')
+AND
+    cu.conversationid IN 
+	(
+	SELECT
+	    cu2.conversationid 
+	FROM 
+	    {sm_conversation_users} cu2
+	GROUP BY
+	    cu2.conversationid
+	HAVING
+	    COUNT(cu2.userid) = ?
+	)
 GROUP BY
-    c.id
+    c.id 
 HAVING
     COUNT(*) = ?';
 		
 		$params = array();
 		foreach ($userids as $userid)
 			$params[] = $userid;
+		$params[] = count($userids);
 		$params[] = count($userids);
 		
 		$conversations = $DB->get_records_sql($sql, $params);

@@ -77,9 +77,10 @@
     color: #fff;
 }
 
-#sm-conversation-reply textarea {
+textarea[name=sm_message] {
     width: 100%;
     height: 125px;
+    resize: none;
 }
 
 #sm-users .sm-user {

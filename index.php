@@ -46,6 +46,8 @@ $renderer = $PAGE->get_renderer('local_simple_message');
 
 echo $OUTPUT->header();
 
+echo "<div id='sm-wrapper' class='clearfix'>";
+echo $renderer->render_navigation();
 
 if ($conversationid >= 0) {
 	global $DB;
@@ -55,14 +57,14 @@ if ($conversationid >= 0) {
 		error('You cannot view this conversation.');
 	}
 	
-	echo "<div id='sm-wrapper' class='clearfix'>";
-	echo $renderer->render_navigation();
-	
 	$conversation = local_simple_message_conversation::find_converstation_by_id($conversationid);
 	// print_r($conversation);
 	echo $renderer->render_conversation($conversation);
-	echo "</div>";
+} else {
+	echo $renderer->render_conversation();
 }
+
+echo "</div>";
 
 
 echo $OUTPUT->footer();
