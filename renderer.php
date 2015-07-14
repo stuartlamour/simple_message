@@ -13,34 +13,20 @@ defined('MOODLE_INTERNAL') || die;
 class local_simple_message_renderer extends plugin_renderer_base {
 
     public function render_navigation() {
+        global $USER;
+        $conversations = local_simple_message_conversation::find_conversations_for_user($USER->id);
+        
+        $output = '';
+        foreach ($conversations as $conversation) {
+            $url = new moodle_url('/local/simple_message/index.php', array('conversation' => $conversation->id));
+            $output .= "<li><a href='" . $url->out(true) . "#sm-conversation'>" . $conversation->get_name() . " <span class='sm-unread'>0</span></a></li>\n";
+        }
+        
         return "<nav id='sm-navigation'>
         <h5>Messages</h5>
         <h6>Direct <a href='newconversation.php'>new message</a></h6>
         <ol>
-          <li><a href='#sm-conversation'>User name <span class='sm-unread'>3</span></a></li>
-          <li>User name </li>
-          <li>User name <span class='sm-unread'>2</span></li>
-          <li><a href='#sm-conversation'>User name <span class='sm-unread'>3</span></a></li>
-          <li><a href='#sm-conversation'>User name</a> </li>
-          <li><a href='#sm-conversation'>User name</a> <span class='sm-unread'>2</span></li>
-          <li><a href='#sm-conversation'>User name <span class='sm-unread'>3</span></a></li>
-          <li>User name </li>
-          <li>User name <span class='sm-unread'>2</span></li>
-          <li><a href='#sm-conversation'>User name <span class='sm-unread'>3</span></a></li>
-          <li>User name </li>
-          <li>User name <span class='sm-unread'>2</span></li>
-          <li><a href='#sm-conversation'>User name <span class='sm-unread'>3</span></a></li>
-          <li>User name </li>
-          <li>User name <span class='sm-unread'>2</span></li>
-          <li><a href='#sm-conversation'>User name <span class='sm-unread'>3</span></a></li>
-          <li>User name </li>
-          <li>User name <span class='sm-unread'>2</span></li>
-          <li><a href='#sm-conversation'>User name <span class='sm-unread'>3</span></a></li>
-          <li>User name </li>
-          <li>User name <span class='sm-unread'>2</span></li>
-          <li><a href='#sm-conversation'>User name <span class='sm-unread'>3</span></a></li>
-          <li>User name </li>
-          <li>User name <span class='sm-unread'>2</span></li>
+          $output
         </ol>
         <h6>Course <a href='#sm-conversation'>new message</a></h6>
         <ol>

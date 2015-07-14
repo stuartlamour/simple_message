@@ -25,6 +25,8 @@ class local_simple_message_conversation {
     public $id;
     private $last_update;
     private $subject;
+    
+    const MAX_USER_NAMES = 3;
 
 
     public function __construct($conversationorid, $last_update = 0, $subject = '') {
@@ -43,13 +45,48 @@ class local_simple_message_conversation {
 
     public function fetch_users() {
         global $DB;
-        return $DB->get_records('sm_conversation_users', array('conversationid' => $this->id));
+        //return $DB->get_records('sm_conversation_users', array('conversationid' => $this->id));
+        
+        $sql = '
+SELECT
+    u.*
+FROM
+    {sm_conversation_users} cu
+JOIN
+    {user} u ON cu.userid = u.id
+WHERE
+    cu.conversationid = :conversationid';
+        
+        return $DB->get_records_sql($sql, array('conversationid' => $this->id));
     }
 
     public function fetch_messages($from = 0, $to = 50) {
         global $DB;
         // we scroll down to latest message, so order messages by timestamp ascending
 		return $DB->get_records('sm_message', array('conversationid' => $this->id), 'timestamp ASC', '*', $from, $to);
+    }
+    
+    public function get_name() {
+        if (!empty($this->subject)) {
+            return $this->subject;
+        } else {
+            $users = $this->fetch_users();
+            
+            $i = 0;
+            $usernames = array();
+            
+            foreach ($users as $user) {
+                $usernames[] = fullname($user);
+                if (++$i == self::MAX_USER_NAMES) break;
+            }
+            
+            $name = implode(', ', $usernames);
+            if (count($users) > self::MAX_USER_NAMES) {
+                $name .= get_string('andothers', 'local_simple_message');
+            }
+            
+            return $name;
+        }
     }
 
     public static function find_conversation($user1, $user2) {
