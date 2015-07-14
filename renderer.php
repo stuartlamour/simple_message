@@ -19,7 +19,9 @@ class local_simple_message_renderer extends plugin_renderer_base {
         $output = '';
         foreach ($conversations as $conversation) {
             $url = new moodle_url('/local/simple_message/index.php', array('conversation' => $conversation->id));
-            $output .= "<li><a href='" . $url->out(true) . "#sm-conversation'>" . $conversation->get_name() . " <span class='sm-unread'>0</span></a></li>\n";
+            $unreadcount = $conversation->get_unread_count($USER->id);
+            $unreadinfo = ($unreadcount > 0) ? " <span class='sm-unread'>" . $unreadcount . "</span></a></li>" : "";
+            $output .= "<li><a href='" . $url->out(true) . "#sm-conversation'>" . $conversation->get_name() . $unreadinfo . "\n";
         }
         
         return "<nav id='sm-navigation'>
@@ -65,7 +67,8 @@ class local_simple_message_renderer extends plugin_renderer_base {
         $output = '';
 		
 		if ($conversation) {
-            global $DB;
+            //global $DB;
+            global $DB, $USER;
             $messages = $conversation->fetch_messages();
             $m_output = "<div id='sm-conversation-messages'>";
 
@@ -93,6 +96,18 @@ class local_simple_message_renderer extends plugin_renderer_base {
                        </div>";
 
 			// $output .= $this->render_user_image();
+            
+            $lastid = end($messages)->id;
+            
+            $sql = '
+UPDATE
+    {sm_conversation_users}
+SET
+    last_read = :lastid
+WHERE
+    conversationid = :conversationid AND userid = :userid';
+            
+            $DB->execute($sql, array('lastid' => $lastid, 'conversationid' => $conversation->id, 'userid' => $USER->id));
         }
 		
         return $output;

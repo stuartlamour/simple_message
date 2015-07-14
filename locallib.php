@@ -31,7 +31,6 @@ class local_simple_message_conversation {
 
     public function __construct($conversationorid, $last_update = 0, $subject = '') {
         if (is_object($conversationorid)) {
-
             $this->id = $conversationorid->id;
             $this->last_update = $conversationorid->last_update;
             $this->subject = $conversationorid->subject;
@@ -72,12 +71,12 @@ WHERE
         } else {
             $users = $this->fetch_users();
             
-            $i = 0;
+            $count = 0;
             $usernames = array();
             
             foreach ($users as $user) {
                 $usernames[] = fullname($user);
-                if (++$i == self::MAX_USER_NAMES) break;
+                if (++$count == self::MAX_USER_NAMES) break;
             }
             
             $name = implode(', ', $usernames);
@@ -87,6 +86,29 @@ WHERE
             
             return $name;
         }
+    }
+    
+    public function get_unread_count($userid = null) {
+        global $DB;
+        
+        $sql = '
+SELECT
+    DISTINCT m.id
+FROM
+    {sm_message} m
+WHERE
+    m.conversationid = :conversationid1
+AND
+    m.id > (
+        SELECT
+            last_read
+        FROM
+            {sm_conversation_users}
+        WHERE
+            conversationid = :conversationid2 AND userid = :userid
+    )';
+        
+        return count($DB->get_records_sql($sql, array('conversationid1' => $this->id, 'conversationid2' => $this->id, 'userid' => $userid)));
     }
 
     public static function find_conversation($user1, $user2) {
