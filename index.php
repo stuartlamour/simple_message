@@ -64,6 +64,7 @@ if ($conversationid >= 0) {
 	$conversation = local_simple_message_conversation::find_converstation_by_id($conversationid);
 	// print_r($conversation);
 	echo $renderer->render_conversation($conversation);
+    $conversation->update_last_read();
 } else {
 	echo $renderer->render_welcome_message();
 }

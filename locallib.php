@@ -110,6 +110,25 @@ AND
         
         return count($DB->get_records_sql($sql, array('conversationid1' => $this->id, 'conversationid2' => $this->id, 'userid' => $userid)));
     }
+    
+    public function update_last_read() {
+        global $DB, $USER;
+        
+        $messages = $this->fetch_messages();
+        if (!empty($messages)) {
+            $lastid = end($messages)->id;
+            
+            $sql = '
+UPDATE
+    {sm_conversation_users}
+SET
+    last_read = :lastid
+WHERE
+    conversationid = :conversationid AND userid = :userid';
+            
+            $DB->execute($sql, array('lastid' => $lastid, 'conversationid' => $this->id, 'userid' => $USER->id));
+        }
+    }
 
     public static function find_conversation($user1, $user2) {
         global $DB;
@@ -227,19 +246,13 @@ WHERE
 
     public static function create_conversation($users, $subject = '') {
         global $DB;
-
-        /*if (count($users) == 2) {
-            $conversation = self::find_conversation($users[0], $users[1]);
+        
+        if (!empty($users)) {
+            $conversation = self::find_conversation_by_users($users);
             if (!is_null($conversation)) {
                 return $conversation;
             }
-        }*/
-		if (!empty($users)) {
-			$conversation = self::find_conversation_by_users($users);
-			if (!is_null($conversation)) {
-				return $conversation;
-			}
-		}
+        }
 
         $users = $DB->get_records_list('user', 'id', $users);
 
@@ -251,7 +264,7 @@ WHERE
 
         //print_r($users);
         foreach ($users as $user) {
-			if (!$user->deleted) {
+            if (!$user->deleted) {
                 $map = new stdClass;
                 $map->conversationid = $conversation->id;
                 $map->userid = $user->id;

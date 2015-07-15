@@ -21,7 +21,7 @@ class local_simple_message_renderer extends plugin_renderer_base {
             $url = new moodle_url('/local/simple_message/index.php', array('conversation' => $conversation->id));
             $unreadcount = $conversation->get_unread_count($USER->id);
             $unreadinfo = ($unreadcount > 0) ? " <span class='sm-unread'>" . $unreadcount . "</span></a></li>" : "";
-            $output .= "<li><a href='" . $url->out(true) . "#sm-conversation'>" . $conversation->get_name() . $unreadinfo . "\n";
+            $output .= "<li><a href='" . $url->out(true) . "'>" . $conversation->get_name() . $unreadinfo . "\n";
         }
         
         return "<nav id='sm-navigation'>
@@ -56,7 +56,7 @@ class local_simple_message_renderer extends plugin_renderer_base {
               <div id="sm-recipients">
               </div>
               <hr>
-			  ' . $this->render_message_form() . '
+              ' . $this->render_message_form() . '
               <hr>
 
               </div>
@@ -66,9 +66,9 @@ class local_simple_message_renderer extends plugin_renderer_base {
     public function render_conversation($conversation) {
         $output = '';
 		
-		if ($conversation) {
-            //global $DB;
-            global $DB, $USER;
+        if ($conversation) {
+            global $DB;
+            //global $DB, $USER;
             $messages = $conversation->fetch_messages();
             $m_output = "<div id='sm-conversation-messages'>";
 
@@ -97,17 +97,6 @@ class local_simple_message_renderer extends plugin_renderer_base {
 
 			// $output .= $this->render_user_image();
             
-            $lastid = end($messages)->id;
-            
-            $sql = '
-UPDATE
-    {sm_conversation_users}
-SET
-    last_read = :lastid
-WHERE
-    conversationid = :conversationid AND userid = :userid';
-            
-            $DB->execute($sql, array('lastid' => $lastid, 'conversationid' => $conversation->id, 'userid' => $USER->id));
         }
 		
         return $output;
