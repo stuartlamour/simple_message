@@ -68,7 +68,7 @@ class local_simple_message_renderer extends plugin_renderer_base {
 		
         if ($conversation) {
             global $DB;
-            //global $DB, $USER;
+            
             $messages = $conversation->fetch_messages();
             $m_output = "<div id='sm-conversation-messages'>";
 
@@ -87,15 +87,15 @@ class local_simple_message_renderer extends plugin_renderer_base {
                 $m_output .= "<div>$messagemeta<p>". $message->body . "</p><hr></div>";
             }
             $m_output .= "</div>";
-			$m_output .= "<hr>";
-			$m_output .= $this->render_conversation_reply($conversation);
-			
-			$output = "<div id='sm-conversation'>
+            $m_output .= "<hr>";
+            $m_output .= $this->render_conversation_reply($conversation);
+
+            $output = "<div id='sm-conversation'>
                           <h6>Conversation title</h6>
                           $m_output
                        </div>";
 
-			// $output .= $this->render_user_image();
+            // $output .= $this->render_user_image();
             
         }
 		
@@ -106,17 +106,17 @@ class local_simple_message_renderer extends plugin_renderer_base {
         global $DB;
 		
 		$recipientshtml = '';
-		$users = $DB->get_records('sm_conversation_users', array('conversationid' => $conversation->id));
+        $users = $conversation->fetch_users();
 		
 		foreach ($users as $user) {
-			$recipientshtml .= '<input type="hidden" name="recipient[]" value="' . $user->userid . '" />';
+            $recipientshtml .= '<input type="hidden" name="recipient[]" value="' . $user->id . '" />';
 		}
 		
 		return '
 		  <form method="post" enctype="multipart/form-data" action="newconversation.php" id="sm-message-form" >
 		  <div id="sm-conversation-reply">
-		    ' . $recipientshtml . '
-			' . $this->render_message_form() . '
+            ' . $recipientshtml . '
+            ' . $this->render_message_form() . '
 		  </div>
 		  </form>';
 	  }

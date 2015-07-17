@@ -35,7 +35,6 @@ class local_simple_message_conversation {
             $this->last_update = $conversationorid->last_update;
             $this->subject = $conversationorid->subject;
         }  else {
-            //$this->id = $id;
             $this->id = $conversationorid;
             $this->last_update = $last_update;
             $this->subject = $subject;
@@ -44,7 +43,6 @@ class local_simple_message_conversation {
 
     public function fetch_users() {
         global $DB;
-        //return $DB->get_records('sm_conversation_users', array('conversationid' => $this->id));
         
         $sql = '
 SELECT
