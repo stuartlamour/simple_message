@@ -102,7 +102,7 @@ class local_simple_message_renderer extends plugin_renderer_base {
         return $output;
       }
 	  
-      public function render_conversation_reply($conversation) {
+    public function render_conversation_reply($conversation) {
         global $DB;
         
         $recipientshtml = '';
@@ -119,51 +119,51 @@ class local_simple_message_renderer extends plugin_renderer_base {
           ' . $this->render_message_form() . '
           </div>
           </form>';
-      }
+    }
 	  
-	  public function render_message_form() {
+	public function render_message_form() {
 	    return '<textarea name="sm_message"></textarea>
                 <br>
                 <input type="submit" class="btn" value="Send" name="sendbtn" />
                 <input type="submit" class="btn btn-link" value="Cancel" name="cancelbtn" />';
-	  }
+	}
 	  
-	  public function render_welcome_message() {
+	public function render_welcome_message() {
 	    return "<div id='sm-conversation'>
                    <h6>Welcome to messages</h6>
                    <p>Simple messages lets you to have conversations with individual memebers of your courses,
                     an entire course cohort or pick a few people to have a conversation with.</p>
-                 </div>";
-	  }
+                </div>";
+	}
 	  
 
 
 
-      public function render_user($user = null) {
-          if (is_null($user)) {
+    public function render_user($user = null) {
+        if (is_null($user)) {
             global $USER;
             $user = $USER;
-          }
+        }
 		  
-          $userpicture = new user_picture($user);
-          $userpicture->link = false;
-          $userpicture->alttext = false;
-          $userpicture->size = 38;
-          $picture = $this->render($userpicture);
-          // name
-          $fullname = format_string(fullname($user));
-          return "<div class='sm-user'>
+        $userpicture = new user_picture($user);
+        $userpicture->link = false;
+        $userpicture->alttext = false;
+        $userpicture->size = 38;
+        $picture = $this->render($userpicture);
+        // name
+        $fullname = format_string(fullname($user));
+        return "<div class='sm-user'>
                 $picture $fullname
                 </div>";
-      }
+    }
 
-      // TODO - what do we pass in?
-      public function render_message() {
-          // $uprofile = render_user($user);
-          return "<div class='sm-message'>
+    // TODO - what do we pass in?
+    public function render_message() {
+        // $uprofile = render_user($user);
+        return "<div class='sm-message'>
                   $uprofile
                   $mdate
                   $mbody
                   </div>";
-      }
+    }
 }

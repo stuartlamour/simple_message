@@ -60,7 +60,7 @@ WHERE
     public function fetch_messages($from = 0, $to = 50) {
         global $DB;
         // we scroll down to latest message, so order messages by timestamp ascending
-		return $DB->get_records('sm_message', array('conversationid' => $this->id), 'timestamp ASC', '*', $from, $to);
+        return $DB->get_records('sm_message', array('conversationid' => $this->id), 'timestamp ASC', '*', $from, $to);
     }
     
     public function get_name() {
@@ -153,14 +153,14 @@ WHERE
         return null;
     }
 	
-	public static function find_conversation_by_users($userids) {
-		global $DB;
-		
-		$sql = '
+    public static function find_conversation_by_users($userids) {
+        global $DB;
+        
+        $sql = '
 SELECT
     c.id,
-	c.subject,
-	c.last_update
+    c.subject,
+    c.last_update
 FROM
     {sm_conversation} c
 JOIN
@@ -183,19 +183,19 @@ GROUP BY
     c.id 
 HAVING
     COUNT(*) = ?';
-		
-		$params = array();
-		foreach ($userids as $userid)
-			$params[] = $userid;
-		$params[] = count($userids);
-		$params[] = count($userids);
-		
-		$conversations = $DB->get_records_sql($sql, $params);
-		if (!empty($conversations)) {
-			return new local_simple_message_conversation(reset($conversations));
-		}
-		return null;
-	}
+        
+        $params = array();
+        foreach ($userids as $userid)
+            $params[] = $userid;
+        $params[] = count($userids);
+        $params[] = count($userids);
+        
+        $conversations = $DB->get_records_sql($sql, $params);
+        if (!empty($conversations)) {
+            return new local_simple_message_conversation(reset($conversations));
+        }
+        return null;
+    }
 
     public static function find_converstation_by_id($convid) {
         global $DB;
@@ -208,9 +208,9 @@ HAVING
 
     public static function find_conversations_for_user($userid) {
         //TODO.....
-		global $DB;
-		
-		$sql = '
+        global $DB;
+        
+        $sql = '
 SELECT
     c.*
 FROM
@@ -219,16 +219,16 @@ JOIN
     {sm_conversation_users} cu ON cu.conversationid = c.id
 WHERE
     cu.userid = ?';
-		
-		$records = $DB->get_records_sql($sql, array($userid));
-		if (!empty($records)) {
-			$conversations = array();
-			foreach ($records as $record) {
-				$conversations[] = new local_simple_message_conversation($record);
-			}
-			return $conversations;
-		}
-		return null;
+        
+        $records = $DB->get_records_sql($sql, array($userid));
+        if (!empty($records)) {
+            $conversations = array();
+            foreach ($records as $record) {
+                $conversations[] = new local_simple_message_conversation($record);
+            }
+            return $conversations;
+        }
+        return null;
     }
 
     public function send_message($from, $body) {
