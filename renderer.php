@@ -102,24 +102,24 @@ class local_simple_message_renderer extends plugin_renderer_base {
         return $output;
       }
 	  
-	  public function render_conversation_reply($conversation) {
+      public function render_conversation_reply($conversation) {
         global $DB;
-		
-		$recipientshtml = '';
+        
+        $recipientshtml = '';
         $users = $conversation->fetch_users();
-		
-		foreach ($users as $user) {
+        
+        foreach ($users as $user) {
             $recipientshtml .= '<input type="hidden" name="recipient[]" value="' . $user->id . '" />';
-		}
+        }
 		
-		return '
-		  <form method="post" enctype="multipart/form-data" action="newconversation.php" id="sm-message-form" >
-		  <div id="sm-conversation-reply">
-            ' . $recipientshtml . '
-            ' . $this->render_message_form() . '
-		  </div>
-		  </form>';
-	  }
+        return '
+          <form method="post" enctype="multipart/form-data" action="newconversation.php" id="sm-message-form" >
+          <div id="sm-conversation-reply">
+          ' . $recipientshtml . '
+          ' . $this->render_message_form() . '
+          </div>
+          </form>';
+      }
 	  
 	  public function render_message_form() {
 	    return '<textarea name="sm_message"></textarea>
@@ -140,10 +140,10 @@ class local_simple_message_renderer extends plugin_renderer_base {
 
 
       public function render_user($user = null) {
-		  if (is_null($user)) {
-		  	global $USER;
-          	$user = $USER;
-		  }
+          if (is_null($user)) {
+            global $USER;
+            $user = $USER;
+          }
 		  
           $userpicture = new user_picture($user);
           $userpicture->link = false;
