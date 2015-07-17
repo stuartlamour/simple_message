@@ -9,7 +9,7 @@
 .path-local-simple_message #page-mast h1 {display:none;}
 
 
-.sm-unread {
+/*.sm-unread {
   text-align: center;
   background-color: #3bcedb;
   color: white;
@@ -18,6 +18,23 @@
   position: relative;
   padding: 0 0.2em;
   border-radius: 3px;
+}*/
+
+.sm-unread-count {
+  text-align: center;
+  background-color: #3bcedb;
+  color: white;
+  font-family: 'roboto';
+  font-size: 0.9em;
+  position: relative;
+  padding: 0 0.2em;
+  border-radius: 3px;
+}
+
+.sm-unread-message {
+  border-color: #3bcedb;
+  border-width: 3px;
+  border-style: solid;
 }
 /*
 .path-local-simple_message input[type="checkbox"] { display:none;}

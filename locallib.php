@@ -109,6 +109,16 @@ AND
         return count($DB->get_records_sql($sql, array('conversationid1' => $this->id, 'conversationid2' => $this->id, 'userid' => $userid)));
     }
     
+    public function get_last_read() {
+        global $DB, $USER;
+        
+        $record = $DB->get_record('sm_conversation_users', array('conversationid' => $this->id, 'userid' => $USER->id));
+        if ($record) {
+            return $record->last_read;
+        }
+        return null;
+    }
+    
     public function update_last_read() {
         global $DB, $USER;
         

@@ -20,7 +20,7 @@ class local_simple_message_renderer extends plugin_renderer_base {
         foreach ($conversations as $conversation) {
             $url = new moodle_url('/local/simple_message/index.php', array('conversation' => $conversation->id));
             $unreadcount = $conversation->get_unread_count($USER->id);
-            $unreadinfo = ($unreadcount > 0) ? " <span class='sm-unread'>" . $unreadcount . "</span></a></li>" : "";
+            $unreadinfo = ($unreadcount > 0) ? " <span class='sm-unread-count'>" . $unreadcount . "</span></a></li>" : "";
             $output .= "<li><a href='" . $url->out(true) . "'>" . $conversation->get_name() . $unreadinfo . "\n";
         }
         
@@ -32,13 +32,13 @@ class local_simple_message_renderer extends plugin_renderer_base {
         </ol>
         <h6>Course <a href='#sm-conversation'>new message</a></h6>
         <ol>
-          <li>Course title <span class='sm-unread'>3</span></li>
-          <li>Course title <span class='sm-unread'>1</span></li>
+          <li>Course title <span class='sm-unread-count'>3</span></li>
+          <li>Course title <span class='sm-unread-count'>1</span></li>
           <li>Course title </li>
         </ol>
         <h6>Group <a href='#sm-conversation'>new message</a></h6>
         <ol>
-          <li>Group title <span class='sm-unread'>5</span></li>
+          <li>Group title <span class='sm-unread-count'>5</span></li>
           <li>Group title </li>
           <li>Group title </li>
         </ol>
@@ -80,11 +80,13 @@ class local_simple_message_renderer extends plugin_renderer_base {
                     $sendersids[] = $message->senderid;
             }
             $senders = $DB->get_records_list('user', 'id', $sendersids);
+            $last_read = $conversation->get_last_read();
             foreach ($messages as $message) {
 				$messagemeta = $this->render_user($senders[$message->senderid]);
 				// Display formatted date instead of timestamp
 				$messagemeta .= userdate($message->timestamp);
-                $m_output .= "<div>$messagemeta<p>". $message->body . "</p><hr></div>";
+                $attribs = ($message->id > $last_read) ? ' class="sm-unread-message"' : '';
+                $m_output .= "<div".$attribs.">" . $messagemeta . "<p>" . $message->body . "</p><hr></div>";
             }
             $m_output .= "</div>";
             $m_output .= "<hr>";
