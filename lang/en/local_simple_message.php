@@ -18,5 +18,6 @@ $string['nousersfound'] = 'No users found';
 
 $string['cantsendempty'] = 'You cannot send an empty message.';
 $string['wannadiscard'] = 'Do you really want to discard your message?';
+$string['wannadelete'] = 'Do you want to delete the selected message?';
 
 $string['andothers'] = ' and others';

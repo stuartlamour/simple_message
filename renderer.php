@@ -85,7 +85,9 @@ class local_simple_message_renderer extends plugin_renderer_base {
 				$messagemeta = $this->render_user($senders[$message->senderid]);
 				// Display formatted date instead of timestamp
 				$messagemeta .= userdate($message->timestamp);
-                $attribs = ($message->id > $last_read) ? ' class="sm-unread-message"' : '';
+                $messagemeta .= '<div><a href="#" class="sm-delete-message" data-message-id="' . $message->id . '">Delete</a></div>';
+                $attribs = ' id="message-' . $message->id . '"';
+                $attribs .= ($message->id > $last_read) ? ' class="sm-unread-message"' : '';
                 $m_output .= "<div".$attribs.">" . $messagemeta . "<p>" . $message->body . "</p><hr></div>";
             }
             $m_output .= "</div>";

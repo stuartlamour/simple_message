@@ -54,6 +54,19 @@
     overflow-x:scroll;
 }
 
+.sm-delete-message {
+   float:right;
+   color:#fff;
+   background-color:#3bcedb;
+}
+
+
+.sm-delete-message:hover {
+   float:right;
+   color:#3bcedb;
+   background-color:inherit;
+}
+
 
 #sm-navigation ol {
   max-height:33vh;

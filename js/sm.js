@@ -33,18 +33,38 @@ $(document).ready( function() {
         });
 
     });
-	$('#sm-message-form input[name=sendbtn]').click(function(e) {
-		if ($('#sm-message-form textarea[name=sm_message]').val().trim().length == 0) {
-			alert(M.util.get_string('cantsendempty', 'local_simple_message'));
-			e.preventDefault();
-		}
-	});
-	$('#sm-message-form input[name=cancelbtn]').click(function(e) {
-		if ($('#sm-message-form textarea[name=sm_message]').val().trim().length != 0) {
-			if (!confirm(M.util.get_string('wannadiscard', 'local_simple_message')))
-				e.preventDefault();
-		}
-	});
+    $('#sm-message-form input[name=sendbtn]').click(function(e) {
+        if ($('#sm-message-form textarea[name=sm_message]').val().trim().length == 0) {
+            alert(M.util.get_string('cantsendempty', 'local_simple_message'));
+            e.preventDefault();
+        }
+    });
+    $('#sm-message-form input[name=cancelbtn]').click(function(e) {
+        if ($('#sm-message-form textarea[name=sm_message]').val().trim().length != 0) {
+            if (!confirm(M.util.get_string('wannadiscard', 'local_simple_message')))
+                e.preventDefault();
+        }
+    });
+    $('.sm-delete-message').click(function(e) {
+        if (confirm(M.util.get_string('wannadelete', 'local_simple_message'))) {
+            var id = $(this).data('message-id');
+            var message = $('#message-' + id);
+            
+            $.ajax({
+                'url': M.cfg.wwwroot + '/local/simple_message/ajax_delete_message.php',
+                'data': 'sm_message=' + id,
+                'method': 'get',
+                'dataType': 'json',
+                'success': function(data, textStatus, jqXHR) {
+                    if (data.status == 'ok') {
+                        message.remove();
+                    }
+                }
+            });
+            
+            e.preventDefault();
+        }
+    });
 
 });
 
