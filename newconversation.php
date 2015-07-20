@@ -24,7 +24,8 @@ if ($cancelbtn) {
     redirect('index.php');
     die;
 } else if ($sendbtn) {
-    $messagebody = optional_param('sm_message', false, PARAM_TEXT);
+    //$messagebody = optional_param('sm_message', false, PARAM_TEXT);
+    $messagebody = optional_param('sm_message', false, PARAM_RAW);
     $recipients = optional_param_array('recipient', false, PARAM_INT);
     $url = 'index.php';
     if (!empty($recipients) && !empty($messagebody)) {

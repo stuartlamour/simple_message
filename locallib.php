@@ -245,7 +245,8 @@ WHERE
         global $DB;
         $message = new stdClass;
         $message->senderid = $from;
-        $message->body = $body;
+        //$message->body = $body;
+        $message->body = htmlentities($body);
         $message->timestamp = time();
         $message->conversationid = $this->id;
         $message->id =  $DB->insert_record('sm_message', $message);
