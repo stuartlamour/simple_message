@@ -246,7 +246,7 @@ WHERE
         $message = new stdClass;
         $message->senderid = $from;
         //$message->body = $body;
-        $message->body = htmlentities($body);
+        $message->body = local_simple_message_purify_text($body);
         $message->timestamp = time();
         $message->conversationid = $this->id;
         $message->id =  $DB->insert_record('sm_message', $message);
@@ -289,6 +289,12 @@ WHERE
 }
 
 
+
+function local_simple_message_purify_text($text) {
+    $text = htmlentities($text);
+    $text = str_replace("\n", "<br />", $text);
+    return $text;
+}
 
 function local_simple_message_find_users($name) {
     global $DB;
