@@ -21,7 +21,7 @@ class local_simple_message_renderer extends plugin_renderer_base {
             $url = new moodle_url('/local/simple_message/index.php', array('conversation' => $conversation->id));
             $unreadcount = $conversation->get_unread_count($USER->id);
             $unreadinfo = ($unreadcount > 0) ? " <span class='sm-unread-count'>" . $unreadcount . "</span></a></li>" : "";
-            $output .= "<li><a href='" . $url->out(true) . "'>" . $conversation->get_name() . $unreadinfo . "\n";
+            $output .= "<li><a data-conversation-id='". $conversation->id ."' href='" . $url->out(true) . "'>" . $conversation->get_name() . $unreadinfo . "\n";
         }
         
         return "<nav id='sm-navigation'>
@@ -82,9 +82,9 @@ class local_simple_message_renderer extends plugin_renderer_base {
             $senders = $DB->get_records_list('user', 'id', $sendersids);
             $last_read = $conversation->get_last_read();
             foreach ($messages as $message) {
-				$messagemeta = $this->render_user($senders[$message->senderid]);
-				// Display formatted date instead of timestamp
-				$messagemeta .= userdate($message->timestamp);
+                $messagemeta = $this->render_user($senders[$message->senderid]);
+                // Display formatted date instead of timestamp
+                $messagemeta .= userdate($message->timestamp);
                 $messagemeta .= '<div><a href="#" class="sm-delete-message" data-message-id="' . $message->id . '">Delete</a></div>';
                 $attribs = ' id="message-' . $message->id . '"';
                 $attribs .= ($message->id > $last_read) ? ' class="sm-unread-message"' : '';
@@ -94,7 +94,11 @@ class local_simple_message_renderer extends plugin_renderer_base {
             $m_output .= "<hr>";
             $m_output .= $this->render_conversation_reply($conversation);
 
-            $output = "<div id='sm-conversation'>
+            /*$output = "<div id='sm-conversation'>
+                          <h6>Conversation title</h6>
+                          $m_output
+                       </div>";*/
+            $output = "<div id='sm-conversation' data-conversation-id='" . $conversation->id . "'>
                           <h6>Conversation title</h6>
                           $m_output
                        </div>";

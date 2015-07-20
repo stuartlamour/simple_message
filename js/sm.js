@@ -65,6 +65,12 @@ $(document).ready( function() {
             e.preventDefault();
         }
     });
+    setTimeout(function() {
+        $('#sm-conversation-messages > div').removeClass('sm-unread-message');
+        var id = $('#sm-conversation').data('conversation-id');
+        var selector = '#sm-navigation a[data-conversation-id=' + id + '] span[class=sm-unread-count]';
+        $(selector).remove();
+    }, 5000);
 
 });
 
