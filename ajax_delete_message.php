@@ -24,8 +24,19 @@ WHERE
     m.id = :messageid AND cu.userid = :userid';
 
 if ($DB->count_records_sql($sql, array('messageid' => $messageid, 'userid' => $USER->id)) > 0) {
-    $DB->delete_records('sm_message', array('id' => $messageid));
-    echo '{"status":"ok"}';
-} else {
-    echo '{"status":"error"}';
+    $message = $DB->get_record('sm_message', array('id' => $messageid));
+    $conversationid = $message->conversationid;
+    if ($DB->delete_records('sm_message', array('id' => $messageid))) {
+        if ($DB->count_records('sm_message', array('conversationid' => $conversationid)) == 0) {
+            $DB->delete_records('sm_conversation_users', array('conversationid' => $conversationid));
+            $DB->delete_records('sm_conversation', array('id' => $conversationid));
+            echo '{"status":"deleted_conversation"}';
+            exit();
+        }
+        //echo '{"status":"ok"}';
+        echo '{"status":"deleted_message"}';
+        exit();
+    }
 }
+
+echo '{"status":"error"}';

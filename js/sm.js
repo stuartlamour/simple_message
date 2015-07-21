@@ -56,8 +56,10 @@ $(document).ready( function() {
                 'method': 'get',
                 'dataType': 'json',
                 'success': function(data, textStatus, jqXHR) {
-                    if (data.status == 'ok') {
+                    if (data.status == 'deleted_message') {
                         message.remove();
+                    } else if (data.status == 'deleted_conversation') {
+                        location.href = location.href.substring(0, location.href.indexOf('?'));
                     }
                 }
             });
